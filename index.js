@@ -45,8 +45,6 @@ const h2 = document.createElement("h2");
 const btn = document.createElement("button");
 
 field.addEventListener("click", (event) => {
-  btn.style.visibility = "hidden";
-
   if (event.target.classList.contains("cell")) {
     const cell = event.target;
     if (!checkedCells.includes(cell)) {
@@ -107,6 +105,7 @@ field.addEventListener("click", (event) => {
       checkedCells = [];
       h2.innerHTML = "";
       finished = false;
+      btn.style.visibility = "hidden";
     });
   }
 });
