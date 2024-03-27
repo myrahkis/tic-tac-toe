@@ -44,7 +44,7 @@ const field = document.querySelector(".play-field");
 const h2 = document.createElement("h2");
 const btn = document.createElement("button");
 
-field.addEventListener("click", (event) => {
+function fieldEventListener(event) {
   if (event.target.classList.contains("cell")) {
     const cell = event.target;
     if (!checkedCells.includes(cell)) {
@@ -64,12 +64,14 @@ field.addEventListener("click", (event) => {
           h2.innerHTML = "Выиграл игрок номер 1!";
           document.body.appendChild(h2);
           finished = true;
+          field.removeEventListener("click", fieldEventListener);
         }
       } else if (cellGroup[0].innerHTML === player2) {
         if (cellGroup.every((cell) => cell.innerHTML === player2)) {
           h2.innerHTML = "Выиграл игрок номер 2!";
           document.body.appendChild(h2);
           finished = true;
+          field.removeEventListener("click", fieldEventListener);
         }
       }
     }
@@ -99,13 +101,17 @@ field.addEventListener("click", (event) => {
     btn.innerHTML = "Начать заново";
     btn.style.visibility = "visible";
     document.body.appendChild(btn);
-    btn.addEventListener("click", function () {
-      cells.forEach((cell) => (cell.innerHTML = ""));
-      currentPlayer = player1;
-      checkedCells = [];
-      h2.innerHTML = "";
-      finished = false;
-      btn.style.visibility = "hidden";
-    });
   }
+}
+
+field.addEventListener("click", fieldEventListener);
+
+btn.addEventListener("click", function restartGame() {
+  field.addEventListener("click", fieldEventListener);
+  cells.forEach((cell) => (cell.innerHTML = ""));
+  currentPlayer = player1;
+  checkedCells = [];
+  h2.innerHTML = "";
+  finished = false;
+  btn.style.visibility = "hidden";
 });
